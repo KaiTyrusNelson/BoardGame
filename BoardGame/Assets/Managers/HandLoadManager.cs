@@ -21,9 +21,14 @@ public sealed class HandLoadManager : NetworkBehaviour
     {
         foreach (Character c in aggregationList)
         {
+            /// <Spawning> Spawns the character into the scene
             GameObject spawnedCharacter = Instantiate(c.gameObject);
             InstanceFinder.ServerManager.Spawn(spawnedCharacter);
-            p.AddCharacterToHand(spawnedCharacter.GetComponent<Character>());
+
+            /// <Assigment> assigns the neccesary properties to the created character
+            Character C = spawnedCharacter.GetComponent<Character>();
+            C.OwnerPlayer = p;
+            p.AddCharacterToHand(C);
         }
     }
 }

@@ -123,6 +123,130 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &28527904
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 28527907}
+  - component: {fileID: 28527906}
+  - component: {fileID: 28527905}
+  m_Layer: 0
+  m_Name: GamBoard
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &28527905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28527904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _networkBehaviours:
+  - {fileID: 28527906}
+  SceneTransformProperties:
+    Position: {x: 508.5, y: 286, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    LocalScale: {x: 1, y: 1, z: 1}
+  _isNetworked: 1
+  _isGlobal: 0
+  _hasParentNetworkObjectAtEdit: 0
+  NetworkObserver: {fileID: 0}
+  _prefabId: -1
+  _scenePathHash: 2312642977
+  _sceneId: 9932725955207569432
+  _sceneNetworkObjects:
+  - {fileID: 28527905}
+  - {fileID: 1245658147}
+  - {fileID: 1262857129}
+  - {fileID: 1954643034}
+--- !u!114 &28527906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28527904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bebf774049540784586b8cf5d26715a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 28527905}
+  _networkObjectCache: {fileID: 28527905}
+  size_x: 7
+  size_y: 7
+--- !u!4 &28527907
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 28527904}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 508.5, y: 286, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &941636028
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 941636030}
+  - component: {fileID: 941636029}
+  m_Layer: 0
+  m_Name: AnimationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &941636029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941636028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7fee35398e137a4eadb8817c05bbce1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &941636030
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941636028}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 294.9367, y: 198.02531, z: 0.36}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &985870194
 GameObject:
   m_ObjectHideFlags: 0
@@ -135,6 +259,7 @@ GameObject:
   - component: {fileID: 985870196}
   - component: {fileID: 985870195}
   - component: {fileID: 985870198}
+  - component: {fileID: 985870199}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -177,7 +302,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6.25
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -224,6 +349,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 0
+--- !u!114 &985870199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 985870194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 306ee73087de38845909f4ef5225f302, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  wireColor: {r: 1, g: 1, b: 1, a: 1}
+  UnitsSize: 12.5
+  constraint: 1
+  camera: {fileID: 985870196}
 --- !u!1 &1245658146
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,6 +409,7 @@ MonoBehaviour:
   _scenePathHash: 2312642977
   _sceneId: 9932725954395559627
   _sceneNetworkObjects:
+  - {fileID: 28527905}
   - {fileID: 1245658147}
   - {fileID: 1262857129}
   - {fileID: 1954643034}
@@ -287,10 +429,10 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1245658147}
   _networkObjectCache: {fileID: 1245658147}
   aggregationList:
-  - {fileID: 6839902431198943678, guid: a786176abef785e46b069b2ba70c2fca, type: 3}
-  - {fileID: 6839902431198943678, guid: a786176abef785e46b069b2ba70c2fca, type: 3}
-  - {fileID: 6839902431198943678, guid: a786176abef785e46b069b2ba70c2fca, type: 3}
-  - {fileID: 6839902431198943678, guid: a786176abef785e46b069b2ba70c2fca, type: 3}
+  - {fileID: 6839902431198943678, guid: a015d4bad3292e248869fc5093441a7a, type: 3}
+  - {fileID: 6839902431198943678, guid: 142e410d15f9f084e8ac5df7bb949a72, type: 3}
+  - {fileID: 6839902431198943678, guid: 9eab3a81d50c5ed4ba409a935f797a6f, type: 3}
+  - {fileID: 6839902431198943678, guid: 9eab3a81d50c5ed4ba409a935f797a6f, type: 3}
   - {fileID: 6839902431198943678, guid: a786176abef785e46b069b2ba70c2fca, type: 3}
   - {fileID: 6839902431198943678, guid: a786176abef785e46b069b2ba70c2fca, type: 3}
 --- !u!4 &1245658149
@@ -352,6 +494,7 @@ MonoBehaviour:
   _scenePathHash: 2312642977
   _sceneId: 9932725956819450537
   _sceneNetworkObjects:
+  - {fileID: 28527905}
   - {fileID: 1245658147}
   - {fileID: 1262857129}
   - {fileID: 1954643034}
@@ -429,6 +572,7 @@ MonoBehaviour:
   _scenePathHash: 2312642977
   _sceneId: 9932725955348483240
   _sceneNetworkObjects:
+  - {fileID: 28527905}
   - {fileID: 1245658147}
   - {fileID: 1262857129}
   - {fileID: 1954643034}
@@ -448,6 +592,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 1954643034}
   _networkObjectCache: {fileID: 1954643034}
   debugTool: {fileID: 639324933777564820, guid: 7d5b1b8ee174b234ea2557e68bb8a70b, type: 3}
+  currentPlayer: {fileID: 0}
 --- !u!4 &1954643036
 Transform:
   m_ObjectHideFlags: 0

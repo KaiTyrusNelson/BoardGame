@@ -41,3 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Character
+    uniqueID: 1808477743
+    locked: 0
+  - name: HandUI
+    uniqueID: 2718274301
+    locked: 0
+  - name: HandCharacter
+    uniqueID: 2328773737
+    locked: 0

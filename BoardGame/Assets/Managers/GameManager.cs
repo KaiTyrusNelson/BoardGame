@@ -23,4 +23,79 @@ public sealed class GameManager : NetworkBehaviour
         }
     }
 
+
+    [SyncVar]
+    public Player currentPlayer;
+    public IEnumerator GameLoop()
+    {
+        for (int i =0; i < 2; i++)
+        {
+            yield return StartCoroutine(awaitPlayerPlace(GamePlayerManager.Instance.Players[1]));
+            yield return StartCoroutine(awaitPlayerPlace(GamePlayerManager.Instance.Players[2]));
+        }
+
+        for (int i =0; i < 100; i++)
+        {
+            yield return StartCoroutine(awaitMovePlayer(GamePlayerManager.Instance.Players[i%2+1]));
+        }
+        Debug.Log("GameLoopFinished");
+        yield break;
+    }
+
+    public IEnumerator awaitPlayerPlace(Player player)
+    {
+        currentPlayer = player;
+        Debug.Log("Awaiting player placement");
+        while(true)
+        {
+            yield return null;
+            if (player.lastCommand == (int)PlayerCommands.PlaceCharacter)
+            {
+                int x = player.Location[0];
+                int y = player.Location[1];
+
+                if (GameBoard.Instance.TryPlayToPosition(player, player.selectedCharacter, x, y))
+                {
+                    player.ClearInput();
+                    Debug.Log("Playing character");
+                    break;
+                }else{
+                    Debug.Log("Placement failed");
+                    player.ClearInput();
+                }
+                    
+            }
+        }
+    }
+
+    public IEnumerator awaitMovePlayer(Player player)
+    {
+        currentPlayer = player;
+        /// <TODO> CHECK IF ANY MOVE IS AVALIABLE
+        Debug.Log("Awaiting player movement");
+        while(true)
+        {
+            yield return null;
+            if (player.lastCommand == (int)PlayerCommands.MoveCharacter)
+            {
+                if (GameBoard.Instance.TryMoveMultiple(player, player.Location, player.Location2))
+                {
+                    player.ClearInput();
+                    break;
+                }
+                player.ClearInput();        
+            }
+            if (player.lastCommand == (int)PlayerCommands.AttackCharacter)
+            {
+                if (GameBoard.Instance.TryAttackMultiple(player, player.Location, player.Location2))
+                {
+                    Debug.Log("Ended");
+                    player.ClearInput();
+                    break;
+                }
+                player.ClearInput();        
+            }
+        }
+        GameBoard.Instance.ClearCharacters();
+    }
 }

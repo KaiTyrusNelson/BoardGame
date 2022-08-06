@@ -49,8 +49,13 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 4837026306578017924}
   _networkObjectCache: {fileID: 4837026306578017924}
   c: {fileID: 6839902431198943678, guid: a786176abef785e46b069b2ba70c2fca, type: 3}
-  _handUI: {fileID: 6977056580563186622, guid: 96d5581120c8fcd478cd735d71ffa3c7, type: 3}
-  _boardUI: {fileID: 7746825191756446258, guid: e2f82945b92618744833185146cdccd5, type: 3}
+  lastCommand: 0
+  Location: {x: 0, y: 0}
+  Location2: {x: 0, y: 0}
+  selectedCharacter: {fileID: 0}
+  _handUI: {fileID: 7240907481044107223, guid: beee7fb993d355d418d50af022cf3f1d, type: 3}
+  _board: {fileID: 2719932932434393346, guid: 0a639a4c8c21e184d85c9e12e6e4b53c, type: 3}
+  _info: {fileID: 1144234459494478980, guid: 854a1bc4658d13a4ca7e93573593997b, type: 3}
 --- !u!114 &4837026306578017924
 MonoBehaviour:
   m_ObjectHideFlags: 0
