@@ -55,7 +55,9 @@ MonoBehaviour:
   selectedCharacter: {fileID: 0}
   _handUI: {fileID: 7240907481044107223, guid: beee7fb993d355d418d50af022cf3f1d, type: 3}
   _board: {fileID: 2719932932434393346, guid: 0a639a4c8c21e184d85c9e12e6e4b53c, type: 3}
+  _attackUi: {fileID: 1278929452020359741, guid: 1b3c527a3d7f3094fa55adcf1e558ce4, type: 3}
   _info: {fileID: 1144234459494478980, guid: 854a1bc4658d13a4ca7e93573593997b, type: 3}
+  _CombatUi: {fileID: 5188627964940872344, guid: 8734a6f0e120c3d42a0ddf569cabbeb6, type: 3}
 --- !u!114 &4837026306578017924
 MonoBehaviour:
   m_ObjectHideFlags: 0

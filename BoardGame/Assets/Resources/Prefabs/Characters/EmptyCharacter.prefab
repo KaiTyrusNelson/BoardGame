@@ -55,8 +55,9 @@ MonoBehaviour:
   attackRange: 2
   proxy: {fileID: 1244150285905222670, guid: 18027f8203eda414ca359e4bb97eae71, type: 3}
   oldLocation: {x: 0, y: 0}
-  attack: 1
-  max_hp: 1
+  attack: 50
+  max_hp: 150
+  max_mp: 1
 --- !u!114 &-3296574704294414701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73,8 +74,8 @@ MonoBehaviour:
   - {fileID: 6839902431198943678}
   SceneTransformProperties:
     Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    LocalScale: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    LocalScale: {x: 1, y: 1, z: 1}
   _isNetworked: 1
   _isGlobal: 0
   _hasParentNetworkObjectAtEdit: 0

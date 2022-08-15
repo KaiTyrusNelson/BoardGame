@@ -10,9 +10,11 @@ public class BoardGenerator : MonoBehaviour
     [SerializeField] Tile tile;
     [SerializeField] GameObject static_tile;
     [SerializeField] BoardCharacterProxy proxyObj;
-    Tile[,] associatedTransformGrid;
+    public Tile[,] associatedTransformGrid;
+
     public void Start()
     {
+        currentSelection = new Vector2Int(-1,-1);
         var random = new System.Random();
         Instance = this;
         associatedTransformGrid = new Tile[GameBoard.Instance.Shape[0], GameBoard.Instance.Shape[1]];
@@ -42,8 +44,9 @@ public class BoardGenerator : MonoBehaviour
                     }else{
                         t.defaultColor = new Color(0.78f, 0.8f, 0.78f, 1);
                     }
-                    t.selectionColor = new Color(1, 0.92f, 0.016f, 1);
-                    t.hoveredColor = new Color(1, 0, 0, 1);
+                    t.hoveredColor = new Color(1,0.1f, 0.1f,1);
+                    
+                    t.currentColor = t.defaultColor;
 
                     t.transform.SetParent(this.transform);
                 }else{
@@ -60,10 +63,87 @@ public class BoardGenerator : MonoBehaviour
 
     /// <CharacterRenderation> We will use a dictionary to connect the character to its proxy object
     public Dictionary<Character, BoardCharacterProxy> characterProxies = new();
-    public Character currentSelection;
-    public List<Vector2Int> currentSelectionSquares;
-    public List<Vector2Int> currentAttackSelectionSquares;
+    public Vector2Int currentSelection;
 
+    List<Vector2Int> css;
+    public List<Vector2Int> currentSelectionSquares{get=>css;
+    set{
+        if (value != null)
+        {
+            css = value;
+            UpdateSquares(css, new Color(1, 0.92f, 0.016f, 1));
+        }else{
+            ReturnDefault();
+            css = null;
+        }
+    }
+    }
+
+    List<Vector2Int> cass;
+    public List<Vector2Int> currentAttackSelectionSquares{get=>cass;
+    set{
+        if (value != null)
+        {
+            cass = value;
+            UpdateSquares(cass, new Color(1, 0, 0, 1));
+        }else{
+            ReturnDefault();
+            cass = null;
+        }
+    }
+    }
+
+    /// <TheoreticalSquares>
+    List <Vector2Int> tm;
+    public List<Vector2Int> TheoreticalMoves{get=>tm;
+    set{
+        if (value != null)
+        {
+            tm = value;
+            UpdateSquares(tm, new Color(0.5f, 0.5f, 1, 1));
+        }else{
+            ReturnDefault();
+            tm = null;
+        }
+    }
+    }
+
+    List <Vector2Int> ta;
+    public List<Vector2Int> TheoreticalAttacks{get=>ta;
+    set{
+        Debug.Log("Assigned theoretical attacks");
+        if (value != null)
+        {
+            Debug.Log("Setting");
+            ta = value;
+            UpdateSquares(ta, new Color(1f, 0.5f, 0.5f, 0));
+        }else{
+            Debug.Log("Is null");
+            ReturnDefault();
+            ta = null;
+        }
+    }
+    }
+
+    public void UpdateSquares(List<Vector2Int> currentList, Color c)
+    {
+        if (currentList == null)
+            return;
+        foreach (Vector2Int inp in currentList)
+        {
+            associatedTransformGrid[inp[0], inp[1]].currentColor = c;
+        }
+    }
+
+    public void ReturnDefault()
+    {
+        foreach (Tile t in associatedTransformGrid)
+        {
+            t.currentColor = t.defaultColor;
+        }
+    }
+
+    
     /// <getLocationsForTilePlacement> given a size, it will place the characters on the appropriate tile
     public static List<Vector3> getLocationsForTilePlacement(int size, int x, int y)
     {
@@ -88,7 +168,6 @@ public class BoardGenerator : MonoBehaviour
         return res;
     }
 
-    
     public static IEnumerator SummonCharacter(Character c, Vector2Int loc)
     {
         int x = loc[0];
@@ -139,6 +218,13 @@ public class BoardGenerator : MonoBehaviour
                 max_time = Math.Max(0.5f * (locations[i] - currentPosition).magnitude, max_time);
                 Instance.characterProxies[cc.addedCharacters[i]].transform.LeanMove(locations[i], 0.5f * (locations[i] - currentPosition).magnitude).setEaseInOutQuart();
                 Instance.characterProxies[cc.addedCharacters[i]].PlayAnimation(AnimationE.Run);
+                if (currentPosition.x > locations[i].x)
+                {
+                    Instance.characterProxies[cc.addedCharacters[i]].Flip(Dir.Left);
+                }else
+                {
+                    Instance.characterProxies[cc.addedCharacters[i]].Flip(Dir.Right);
+                }
             }
         }
         yield return new WaitForSeconds(max_time);
@@ -148,6 +234,7 @@ public class BoardGenerator : MonoBehaviour
             if (Instance.characterProxies.ContainsKey(cc.addedCharacters[i]))
             {
                 Instance.characterProxies[cc.addedCharacters[i]].PlayAnimation(AnimationE.Idle);
+                Instance.characterProxies[cc.addedCharacters[i]].Flip(Dir.Left);
             }
         }
     }
@@ -167,43 +254,40 @@ public class BoardGenerator : MonoBehaviour
     public void DisplayMovableSquares(Character c)
     {
         /// <Display> we will display all movable squares to the player currently avaliable
-        if (!characterProxies.ContainsKey(c))
+        if (!GameBoard.Instance.activeCharacters.ContainsKey(c))
             return;
         /// <CurrentSelection> Tells the player what we are currently selecting
-        currentSelection = c;
+        Vector2Int loc = GameBoard.Instance.activeCharacters[c];
         /// <FindAvaliable> we will  then find the avaliable squares to move to
-        List<Vector2Int> squares = c.FindAvaliableSquares();
-        List<Vector2Int> attackSquares = c.FindAvaliableAttacks();
-        currentSelectionSquares = squares;
-        currentAttackSelectionSquares = attackSquares;
+        currentSelectionSquares = null;
+        currentAttackSelectionSquares = null;
+
+
+        List<Vector2Int> res = new();
+        List<Vector2Int> res2 = new();
+
+        foreach (Character c2 in GameBoard.Instance.grid[loc[0], loc[1]].addedCharacters)
+        {
+            foreach(Vector2Int v2i in c2.FindAvaliableSquares())
+            {
+                res.Add(v2i);
+            } 
+            foreach(Vector2Int v2i in c2.FindAvaliableAttacks())
+            {
+                res2.Add(v2i);
+            }
+        }
+        currentSelectionSquares = res;
+        currentAttackSelectionSquares = res2;
     }
 
     public void UndisplayMovableSquares()
     {
-        currentSelection = null;
-        List<Vector2Int> x = currentSelectionSquares;
-        List<Vector2Int> y = currentAttackSelectionSquares;
+        currentSelection = new Vector2Int(-1,-1);
         currentSelectionSquares = null;
         currentAttackSelectionSquares = null;
-
-        if (x == null)
-            return;
-        foreach(Vector2Int selection in x)
-        {
-            SpriteRenderer r = associatedTransformGrid[selection[0], selection[1]].GetComponent<SpriteRenderer>();
-            if (r!=null)
-            {
-               r.color = associatedTransformGrid[selection[0], selection[1]].defaultColor;
-            }
-        }
-        foreach(Vector2Int selection in y)
-        {
-            SpriteRenderer r = associatedTransformGrid[selection[0], selection[1]].GetComponent<SpriteRenderer>();
-            if (r!=null)
-            {
-               r.color = associatedTransformGrid[selection[0], selection[1]].defaultColor;
-            }
-        }
+        TheoreticalMoves = null;
+        TheoreticalAttacks = null;
     }
 
 

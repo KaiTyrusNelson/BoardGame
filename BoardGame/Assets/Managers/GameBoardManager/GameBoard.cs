@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
+using System; 
 public class CharacterContainer
     {
         public List<Character> addedCharacters = new();
@@ -133,6 +134,13 @@ public class GameBoard : NetworkBehaviour
     {
         Debug.Log($"Player has tried to play to locaiton {x} {y}");
         /// <checks> Confirms the player owns the current character
+
+        if (!p.placeableSquares.GetCollection(true).Exists(g => (g[0] == x && g[1] == y)))
+        {
+            Debug.Log("Not in placableSquares");
+            return false;
+        }
+            
         if (!p.currentHand.Contains(c))
         {
             Debug.Log("Handcheck failed");
@@ -190,7 +198,6 @@ public class GameBoard : NetworkBehaviour
         bool success = false;
         foreach (Character c2 in chars)
         {
-            Debug.Log("Ran run");
             success = TryMove(c2, location)||success;
         }
         return true;
@@ -202,15 +209,39 @@ public class GameBoard : NetworkBehaviour
             return false;
         List<Character> chars = new List<Character>(grid[location_from[0], location_from[1]].addedCharacters);
         bool success = false;
+
+        List<Character> attackList = new();
         foreach (Character c2 in chars)
         {
             Debug.Log("Ran run");
-            success = success || TryAttack(c2, location);
+            if (TryAttack(c2, location))
+            {
+                attackList.Add(c2);
+                success = true;
+            }
         }
+
+        if (success)
+        {
+            try{
+                GamePlayerManager.Instance.Players[1].CallAttack(GamePlayerManager.Instance.Players[1].Owner, attackList, GameBoard.Instance.grid[location[0], location[1]].addedCharacters, 1);
+            }catch(Exception e)
+            {
+                Debug.Log("Something went wrong");
+            }
+            try{
+                GamePlayerManager.Instance.Players[2].CallAttack(GamePlayerManager.Instance.Players[2].Owner, attackList, GameBoard.Instance.grid[location[0], location[1]].addedCharacters, 1);
+            }catch(Exception e)
+            {
+                Debug.Log("Something went wrong");
+            }
+        }
+
+
         return success;
     }
 
-
+    [Server]
     public void ClearCharacters()
     {
         List<Character> characters = new(activeCharacters.Keys);
@@ -221,6 +252,25 @@ public class GameBoard : NetworkBehaviour
     }
 
 
+    public List<Vector2Int> QuerySquares(Func<Vector2Int,bool> function)
+    {
+        /// <QuerySqaures> returns the appropriate squares which satisfy the quety
+
+        List<Vector2Int> res = new();
+        for (int i = 0; i < size_x; i++)
+        {
+            for (int j =0; j < size_y; j++)
+            {
+                Vector2Int newVec = new Vector2Int(i,j);
+                if (function(newVec))
+                    res.Add(newVec);
+            }
+        }
+
+        return res;
+    }
+
+    
     public bool ConfirmOwner(Vector2Int location_from, Player p)
     {
         return grid[location_from[0], location_from[1]].getOwnerPlayer() == p;
@@ -229,6 +279,7 @@ public class GameBoard : NetworkBehaviour
 
     #endregion
 
+    
     public void Awake()
     {
         Instance = this;

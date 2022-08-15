@@ -55,8 +55,9 @@ MonoBehaviour:
   attackRange: 3
   proxy: {fileID: 7718048969799188278, guid: 189a60eb89beb924faf951f00143b4f2, type: 3}
   oldLocation: {x: 0, y: 0}
-  attack: 1
-  max_hp: 1
+  attack: 60
+  max_hp: 300
+  max_mp: 1
 --- !u!114 &-3296574704294414701
 MonoBehaviour:
   m_ObjectHideFlags: 0

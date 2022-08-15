@@ -28,11 +28,22 @@ public sealed class GameManager : NetworkBehaviour
     public Player currentPlayer;
     public IEnumerator GameLoop()
     {
+
+        List<Vector2Int> player1Playable = GameBoard.Instance.QuerySquares((c) => (c[1] <= 1));
+        List<Vector2Int> player2Playable = GameBoard.Instance.QuerySquares((c) => (c[1] >= 5));
+
+        foreach (Vector2Int c in player1Playable)
+            GamePlayerManager.Instance.Players[1].placeableSquares.Add(c);
+        foreach (Vector2Int c in player2Playable)
+            GamePlayerManager.Instance.Players[2].placeableSquares.Add(c);
+
         for (int i =0; i < 2; i++)
         {
             yield return StartCoroutine(awaitPlayerPlace(GamePlayerManager.Instance.Players[1]));
             yield return StartCoroutine(awaitPlayerPlace(GamePlayerManager.Instance.Players[2]));
         }
+
+
 
         for (int i =0; i < 100; i++)
         {

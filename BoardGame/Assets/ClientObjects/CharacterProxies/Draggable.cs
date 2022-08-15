@@ -9,6 +9,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
     // FOR OUR DRAGGABLE WE WANT IT TO TRY AND ATTEMPT TO SEND A MESSAGE FOR A SET AMOUNT OF TIME AND THEN IF IT FAILS WE JUST WAIT
     
     public Transform returnTo;
+    List<Vector2Int> returnTiles;
+
     public void OnBeginDrag(PointerEventData eventData)
     {
         Debug.Log("Picked up");
@@ -17,6 +19,17 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         returnTo.gameObject.SetActive(false);
         this.transform.SetParent(this.transform.parent.parent);
         GetComponent<CanvasGroup>().blocksRaycasts=false;
+
+        BoardGenerator.Instance.UndisplayMovableSquares();
+
+        returnTiles = new();
+        foreach (Vector2Int l in Player.player.placeableSquares)
+        {
+            if (l!=null){
+                BoardGenerator.Instance.associatedTransformGrid[l[0],l[1]].currentColor = new Color(1, 0.92f, 0.016f, 1);
+                returnTiles.Add(new Vector2Int(l[0],l[1]));
+            }
+        }
     }
     public void OnDrag(PointerEventData eventData)
     {
@@ -31,7 +44,8 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         this.transform.SetParent(returnTo);
         returnTo.gameObject.SetActive(true);
         GetComponent<CanvasGroup>().blocksRaycasts=true;
-       
+
+        BoardGenerator.Instance.UndisplayMovableSquares();
     }
 
     void Update()
@@ -39,7 +53,7 @@ public class Draggable : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDra
         this.transform.localScale = new Vector3(1,1,0);
         foreach (Transform t in this.transform)
         {
-            t.position = this.transform.position;
+                t.position = this.transform.position;
         }
     }
 }

@@ -41,3 +41,17 @@ public sealed class GamePlayerManager : NetworkBehaviour
         }
     }
 }
+
+public static class PlayerExtensions
+{
+    public static Player OppositePlayer(this Player p)
+    {
+        if (p == GamePlayerManager.Instance.Players[1])
+        {
+            return GamePlayerManager.Instance.Players[2];
+        }else
+        {
+            return GamePlayerManager.Instance.Players[1];
+        }
+    }
+}

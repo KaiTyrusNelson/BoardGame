@@ -12,6 +12,7 @@ public sealed class Player : NetworkBehaviour
     
     /// <currentHand> This syncs the characters currently in the players hand
     [SyncObject] public readonly SyncList<Character> currentHand= new SyncList<Character>();
+    [SyncObject] public readonly SyncList<Vector2Int> placeableSquares = new SyncList<Vector2Int>();
 
     #endregion
 
@@ -80,17 +81,15 @@ public sealed class Player : NetworkBehaviour
     public static Player player;
     [SerializeField] public HandUI _handUI;
     [SerializeField] public BoardGenerator _board;
-
+    [SerializeField] public AttackUI _attackUi;
     [SerializeField] public InfoUI _info;
+    [SerializeField] public Canvas _CombatUi;
     #endregion
     
     public override void OnStartClient()
     {
         // ON THE CLIENT THIS WILL INSTANTIATE THE BOARD
         base.OnStartClient();
-
-        
-        
         if (!IsOwner)
             return;
         /// <summary> Instantiate the hand UI <summary>
@@ -100,7 +99,8 @@ public sealed class Player : NetworkBehaviour
         _handUI.InitializeSelf();
         /// <summary> Instantiate to board UI <summary>
         _board = Instantiate(_board);
-        
+        _attackUi = Instantiate(_attackUi);
+        _CombatUi = Instantiate(_CombatUi);
         /// <ResponseLiseners> Adds listeners which respond to changes in the syncList
         currentHand.OnChange +=  currentHand_OnChange;
         /// <UpdateBoard> if the player has connected late, we need to make sure their current board is up to date with what we see
@@ -117,7 +117,11 @@ public sealed class Player : NetworkBehaviour
         _handUI.UpdateHand();
     }
 
-
+    [TargetRpc]
+    public void CallAttack(NetworkConnection c, List<Character> lc1, List<Character> lc2, int num)
+    {
+        AnimationManager.AddAnimation(_attackUi.ActivateAttackAnimation(lc1, lc2, 1));
+    }
 
     #endregion
     

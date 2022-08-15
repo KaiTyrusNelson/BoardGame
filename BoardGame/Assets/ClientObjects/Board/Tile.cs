@@ -28,6 +28,16 @@ public class Tile : MonoBehaviour, IDropHandler, IPointerClickHandler
 
     /// <summary> Rendering <summary>
 
+    Color cc;
+    public Color currentColor {get
+    {
+        return cc;
+    } 
+    set{
+        GetComponent<SpriteRenderer>().color = value;
+        cc = value;
+    }
+    }
     
     Color _defaultColor;
     public Color selectionColor;
@@ -50,41 +60,33 @@ public class Tile : MonoBehaviour, IDropHandler, IPointerClickHandler
     void OnMouseExit()
     {
         //The mouse is no longer hovering over the GameObject so output this message each frame
-        GetComponent<SpriteRenderer>().color = defaultColor;
+        GetComponent<SpriteRenderer>().color = currentColor;
     }
 
     public void OnPointerClick(PointerEventData pointerEventData)
     {
-        if (BoardGenerator.Instance.currentSelection != null && BoardGenerator.Instance.currentSelectionSquares != null)
+        if (BoardGenerator.Instance.currentSelectionSquares != null)
         {
             if (BoardGenerator.Instance.currentSelectionSquares.Exists( t => t[0] == x && t[1] == y))
             {
                 Debug.Log($"Trying to move character to location {x} {y}");
-                Player.player.InputMovement(GameBoard.Instance.activeCharacters[BoardGenerator.Instance.currentSelection] ,new Vector2Int(x,y));
+                Player.player.InputMovement(BoardGenerator.Instance.currentSelection ,new Vector2Int(x,y));
+                return;
             }
+        }
+
+        if (BoardGenerator.Instance.currentAttackSelectionSquares != null)
+        {
             if (BoardGenerator.Instance.currentAttackSelectionSquares.Exists( t => t[0] == x && t[1] == y))
             {
                 Debug.Log($"Trying to move character to location {x} {y}");
-                Player.player.InputAttack(GameBoard.Instance.activeCharacters[BoardGenerator.Instance.currentSelection] ,new Vector2Int(x,y));
+                Player.player.InputAttack(BoardGenerator.Instance.currentSelection ,new Vector2Int(x,y));
+                return;
             }
         }
         BoardGenerator.Instance.UndisplayMovableSquares();
-    }
-
-    public void Update()
-    {
-        /// <SelectionUpdate> If we are currently looking for selections, we will change the square color
-        if (BoardGenerator.Instance.currentSelection != null && BoardGenerator.Instance.currentSelectionSquares != null)
-        {
-            if (BoardGenerator.Instance.currentSelectionSquares.Exists( t => t[0] == x && t[1] == y))
-            {
-                GetComponent<SpriteRenderer>().color = selectionColor;
-            }
-            if (BoardGenerator.Instance.currentAttackSelectionSquares.Exists( t => t[0] == x && t[1] == y))
-            {
-                GetComponent<SpriteRenderer>().color = attackSelectionColor;
-            }
-        }
+    
+        
     }
 
 }

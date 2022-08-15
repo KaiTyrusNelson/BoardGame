@@ -105,6 +105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   associatedCharacter: {fileID: 0}
   animator: {fileID: 0}
+  _hp: {fileID: 332026708895625817, guid: 8e4fe4e956a26344988963507ea86864, type: 3}
 --- !u!61 &4538000895093218151
 BoxCollider2D:
   m_ObjectHideFlags: 0
